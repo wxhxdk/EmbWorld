@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/TabBar.qml</file>
+        <file>qml/pages/JLPTTab.qml</file>
+        <file>qml/pages/ITJATab.qml</file>
+        <file>qml/pages/ListeningTab.qml</file>
+        <file>qml/pages/ConversationTab.qml</file>
+        <file>qml/pages/ProfileTab.qml</file>
+    </qresource>
+</RCC>
