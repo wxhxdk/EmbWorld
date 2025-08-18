@@ -43,3 +43,9 @@ void TabController::switchToTabByName(const QString &tabName)
 }
 
 
+
+
+
+
+
+

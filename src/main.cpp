@@ -14,8 +14,18 @@ int main(int argc, char *argv[])
     app.setOrganizationName("EmbWorld");
     app.setOrganizationDomain("embworld.com");
 
-    // 使用 Material 风格(安卓风)
+// 根据操作系统设置不同的风格
+#if defined(Q_OS_ANDROID)
     QQuickStyle::setStyle("Material");
+#elif defined(Q_OS_IOS)
+    QQuickStyle::setStyle("iOS");
+#elif defined(Q_OS_WIN) || defined(Q_OS_MACOS)
+    // 桌面系统
+    QQuickStyle::setStyle("Fusion");
+#else
+    // 默认风格
+    QQuickStyle::setStyle("Default");
+#endif
 
     QQmlApplicationEngine engine;
 

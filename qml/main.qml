@@ -36,31 +36,31 @@ ApplicationWindow {
             id: contentStack
             Layout.fillWidth: true
             Layout.fillHeight: true
-            currentIndex: tabController.currentIndex
+            currentIndex: tabController ? tabController.currentIndex : 0
             
             // JLPT 标签页
             JLPTTab {
-                id: jlptTab
+                id: jlptTab;
             }
             
             // ITJA 标签页
             ITJATab {
-                id: itjaTab
+                id: itjaTab;
             }
             
             // 听力标签页
             ListeningTab {
-                id: listeningTab
+                id: listeningTab;
             }
             
             // 会话标签页
             ConversationTab {
-                id: conversationTab
+                id: conversationTab;
             }
             
             // 我的标签页
             ProfileTab {
-                id: profileTab
+                id: profileTab;
             }
         }
         
@@ -69,7 +69,7 @@ ApplicationWindow {
             id: tabBar
             Layout.fillWidth: true
             Layout.preferredHeight: 60
-            currentIndex: tabController.currentIndex
+            currentIndex: tabController ? tabController.currentIndex : 0
             
             onTabClicked: function(index) {
                 tabController.setCurrentIndex(index)
@@ -82,7 +82,6 @@ ApplicationWindow {
         target: tabController
         function onCurrentIndexChanged() {
             contentStack.currentIndex = tabController.currentIndex
-            tabBar.currentIndex = tabController.currentIndex
         }
     }
 }

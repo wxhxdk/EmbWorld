@@ -93,7 +93,7 @@ Rectangle {
                     id: mouseArea
                     anchors.fill: parent
                     onClicked: {
-                        tabBar.currentIndex = index
+                        //tabBar.currentIndex = index
                         tabBar.tabClicked(index)
                     }
                 }

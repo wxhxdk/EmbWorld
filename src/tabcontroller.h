@@ -14,13 +14,13 @@ public:
     explicit TabController(QObject *parent = nullptr);
 
     int currentIndex() const;
-    void setCurrentIndex(int index);
-    
     QString currentTab() const;
 
 public slots:
+    void setCurrentIndex(int index);
     void switchToTab(int index);
     void switchToTabByName(const QString &tabName);
+
 
 signals:
     void currentIndexChanged();
@@ -32,5 +32,10 @@ private:
 };
 
 #endif // TABCONTROLLER_H
+
+
+
+
+
 
 
