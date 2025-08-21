@@ -373,9 +373,9 @@ Rectangle {
                             
                             Switch {
                                 checked: model.enabled
-                                onCheckedChanged: {
-                                    model.enabled = checked
-                                    console.log("插件状态:", model.name, checked)
+                                onClicked: {
+                                    model.enabled = !model.enabled
+                                    console.log("插件状态:", model.name, model.enabled)
                                 }
                             }
                         }
