@@ -34,6 +34,11 @@ Rectangle {
             color: "#07c160"
         },
         {
+            icon: "👥",
+            text: "学伴",
+            color: "#07c160"
+        },
+        {
             icon: "👤",
             text: "我的",
             color: "#07c160"

@@ -208,7 +208,7 @@ Rectangle {
                         
                         Repeater {
                             model: [
-                                { icon: "🎧", text: "日常对话", color: "#ff6b6b" },
+                                { icon: "💼", text: "日常对话", color: "#ff6b6b" },
                                 { icon: "📰", text: "新闻播报", color: "#4ecdc4" },
                                 { icon: "🎬", text: "影视片段", color: "#45b7d1" }
                             ]
@@ -242,6 +242,100 @@ Rectangle {
                                     onClicked: {
                                         console.log("选择材料:", modelData.text)
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // 精听/跟读区域
+            Rectangle {
+                Layout.fillWidth: true
+                height: 150
+                radius: 8
+                color: "white"
+                
+                // 动态正确率属性
+                property int listeningAccuracy: 65
+                
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 16
+                    spacing: 12
+                    
+                    RowLayout {
+                        spacing: 8
+                        Layout.alignment: Qt.AlignLeft
+                        
+                        Text {
+                            text: "🎧"
+                            font.pixelSize: 16
+                        }
+                        
+                        Text {
+                            text: "精听/跟读练习"
+                            font {
+                                pixelSize: 16
+                                weight: Font.Medium
+                            }
+                            color: "#333333"
+                        }
+                    }
+                    
+                    RowLayout {
+                        spacing: 12
+                        
+                        Repeater {
+                            model: [
+                                { icon: "🎧", text: "精听练习", rate: parent.parent.parent.listeningAccuracy + "%" },
+                                { icon: "🎙️", text: "跟读练习", rate: (parent.parent.parent.listeningAccuracy + 8) + "%" }
+                            ]
+                            
+                            delegate: Item {
+                                Layout.fillWidth: true
+                                height: 80
+                                
+                                ColumnLayout {
+                                    anchors.fill: parent
+                                    spacing: 8
+                                    
+                                    Text {
+                                        text: modelData.icon
+                                        font.pixelSize: 24
+                                        horizontalAlignment: Text.AlignHCenter
+                                        Layout.fillWidth: true
+                                    }
+                                    
+                                    ColumnLayout {
+                                        spacing: 2
+                                        Layout.alignment: Qt.AlignHCenter
+                                        
+                                        Text {
+                                            text: modelData.text
+                                            font.pixelSize: 14
+                                            color: "#333333"
+                                            horizontalAlignment: Text.AlignHCenter
+                                        }
+                                        
+                                        // 正确率显示组件
+                                        Text {
+                                            text: "正确率: " + modelData.rate
+                                            font.pixelSize: 12
+                                            color: {
+                                                var percent = parseInt(modelData.rate) || 0;
+                                                if (percent >= 80) return "#07c160";
+                                                if (percent >= 60) return "#ff9500";
+                                                return "#ff3b30";
+                                            }
+                                            horizontalAlignment: Text.AlignHCenter
+                                        }
+                                    }
+                                }
+                                
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: console.log("开始练习:", modelData.text)
                                 }
                             }
                         }

@@ -36,6 +36,7 @@ ApplicationWindow {
             ITJATab { id: itjaTab }
             ListeningTab { id: listeningTab }
             ConversationTab { id: conversationTab }
+            StudyBuddyTab { id: studyBuddyTab }
             ProfileTab { id: profileTab }
         }
         
@@ -44,7 +45,9 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.preferredHeight: 60
             currentIndex: tabController ? tabController.currentIndex : 0
-            onTabClicked: tabController.setCurrentIndex(index)
+            onTabClicked: function(index) {
+                tabController.setCurrentIndex(index)
+            }
         }
     }
     

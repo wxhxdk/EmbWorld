@@ -7,5 +7,6 @@
         <file>qml/pages/ListeningTab.qml</file>
         <file>qml/pages/ConversationTab.qml</file>
         <file>qml/pages/ProfileTab.qml</file>
+        <file>qml/pages/StudyBuddyTab.qml</file>
     </qresource>
 </RCC>
