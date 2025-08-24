@@ -13,14 +13,52 @@ Rectangle {
         height: 56
         color: "#07c160"
 
-        Text {
-            anchors.centerIn: parent
-            text: "JLPT 日语能力考试"
-            font {
-                pixelSize: 18
-                weight: Font.Medium
+        RowLayout {
+            anchors.fill: parent
+            anchors.margins: 16
+            spacing: 12
+
+            // 左侧标题
+            Text {
+                text: "JLPT 日语能力考试"
+                font {
+                    pixelSize: 18
+                    weight: Font.Medium
+                }
+                color: "white"
+                Layout.alignment: Qt.AlignVCenter
             }
-            color: "white"
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            // 右侧倒计时信息
+            RowLayout {
+                spacing: 6
+                Layout.alignment: Qt.AlignVCenter
+
+                Text {
+                    text: "⏰"
+                    font.pixelSize: 16
+                    color: "white"
+                }
+
+                Text {
+                    text: (tabController ? tabController.examDaysLeft : 45) + "天"
+                    font {
+                        pixelSize: 16
+                        weight: Font.Medium
+                    }
+                    color: {
+                        var days = tabController ? tabController.examDaysLeft : 45;
+                        if (days >= 45) return "#E8F5E8"; // 淡绿色
+                        if (days >= 30) return "#FFF3CD"; // 淡黄色
+                        if (days >= 15) return "#F8D7DA"; // 淡红色
+                        return "#FFCCCB"; // 深红色
+                    }
+                }
+            }
         }
     }
 
