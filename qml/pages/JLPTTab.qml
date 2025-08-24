@@ -38,10 +38,10 @@ Rectangle {
             spacing: 16
             anchors.margins: 16
 
-            // 等级选择卡片
+            // 学习状况卡片
             Rectangle {
                 Layout.fillWidth: true
-                height: 120
+                height: 140
                 radius: 8
                 color: "white"
 
@@ -50,41 +50,105 @@ Rectangle {
                     anchors.margins: 16
                     spacing: 12
 
-                    Text {
-                        text: "选择考试等级"
-                        font {
-                            pixelSize: 16
-                            weight: Font.Medium
+                    RowLayout {
+                        spacing: 8
+                        Layout.alignment: Qt.AlignLeft
+
+                        Text {
+                            text: "📊"
+                            font.pixelSize: 16
                         }
-                        color: "#333333"
+
+                        Text {
+                            text: "学习状况"
+                            font {
+                                pixelSize: 16
+                                weight: Font.Medium
+                            }
+                            color: "#333333"
+                        }
                     }
 
                     RowLayout {
-                        spacing: 12
-                        Repeater {
-                            model: ["N5", "N4", "N3", "N2", "N1"]
-                            delegate: Rectangle {
-                                width: 50
-                                height: 32
-                                radius: 16
-                                color: mouseArea.pressed ? "#e0e0e0" : "#f0f0f0"
-                                border {
-                                    color: "#07c160"
-                                    width: 1
-                                }
+                        spacing: 20
+                        Layout.fillWidth: true
 
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: modelData
-                                    font.pixelSize: 14
-                                    color: "#07c160"
-                                }
+                        // 学习记录（时间+天数）
+                        ColumnLayout {
+                            spacing: 4
+                            Layout.fillWidth: true
 
-                                MouseArea {
-                                    id: mouseArea
-                                    anchors.fill: parent
-                                    onClicked: console.log("选择等级:", modelData)
+                            Text {
+                                text: "学习记录"
+                                font.pixelSize: 12
+                                color: "#666666"
+                            }
+                            
+                            Text {
+                                text: (tabController ? tabController.studyTimeToday : 15) + "分钟"
+                                font {
+                                    pixelSize: 16
+                                    weight: Font.Medium
                                 }
+                                color: "#07c160"
+                            }
+                            
+                            Text {
+                                text: (tabController ? tabController.studyDays : 15) + "天"
+                                font {
+                                    pixelSize: 14
+                                    weight: Font.Normal
+                                }
+                                color: "#999999"
+                            }
+                        }
+
+                        // 今日进度
+                        ColumnLayout {
+                            spacing: 4
+                            Layout.fillWidth: true
+
+                            Text {
+                                text: "今日进度"
+                                font.pixelSize: 12
+                                color: "#666666"
+                            }
+                            
+                            Text {
+                                text: (tabController ? tabController.todayProgress : 75) + "%"
+                                font {
+                                    pixelSize: 16
+                                    weight: Font.Medium
+                                }
+                                color: {
+                                    var progress = tabController ? tabController.todayProgress : 75;
+                                    if (progress >= 80) return "#07c160";
+                                    if (progress >= 50) return "#ff9500";
+                                    return "#ff3b30";
+                                }
+                            }
+                        }
+
+                        // 最薄弱科目
+                        ColumnLayout {
+                            spacing: 4
+                            Layout.fillWidth: true
+
+                            Text {
+                                text: "最薄弱科目"
+                                font.pixelSize: 12
+                                color: "#666666"
+                            }
+                            
+                            Text {
+                                text: tabController ? tabController.weakestSubject : "文字・語彙"
+                                font {
+                                    pixelSize: 14
+                                    weight: Font.Medium
+                                }
+                                color: "#ff3b30"
+                                elide: Text.ElideRight
+                                Layout.fillWidth: true
                             }
                         }
                     }
@@ -430,5 +494,12 @@ Rectangle {
     // 获取所有正确率数据
     function getAllRates() {
         return tabController ? tabController.getAllRates() : {};
+    }
+    
+    // 更新学习时间
+    function updateStudyTime(minutesToday, totalHours) {
+        if (tabController) {
+            tabController.updateStudyTime(minutesToday, totalHours);
+        }
     }
 }

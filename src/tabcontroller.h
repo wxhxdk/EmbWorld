@@ -20,6 +20,14 @@ class TabController : public QObject
     Q_PROPERTY(int vocabularyAccuracy READ vocabularyAccuracy NOTIFY vocabularyAccuracyChanged)
     Q_PROPERTY(int readingAccuracy READ readingAccuracy NOTIFY readingAccuracyChanged)
     Q_PROPERTY(int listeningAccuracy READ listeningAccuracy NOTIFY listeningAccuracyChanged)
+    
+    // 学习状况相关数据属性
+    Q_PROPERTY(QString currentLevel READ currentLevel NOTIFY currentLevelChanged)
+    Q_PROPERTY(int studyDays READ studyDays NOTIFY studyDaysChanged)
+    Q_PROPERTY(int todayProgress READ todayProgress NOTIFY todayProgressChanged)
+    Q_PROPERTY(QString weakestSubject READ weakestSubject NOTIFY weakestSubjectChanged)
+    Q_PROPERTY(int studyTimeToday READ studyTimeToday NOTIFY studyTimeTodayChanged)
+    Q_PROPERTY(int totalStudyTime READ totalStudyTime NOTIFY totalStudyTimeChanged)
 
 public:
     explicit TabController(QObject *parent = nullptr);
@@ -35,6 +43,14 @@ public:
     int vocabularyAccuracy() const;
     int readingAccuracy() const;
     int listeningAccuracy() const;
+    
+    // 学习状况数据读取函数
+    QString currentLevel() const;
+    int studyDays() const;
+    int todayProgress() const;
+    QString weakestSubject() const;
+    int studyTimeToday() const;
+    int totalStudyTime() const;
 
 public slots:
     void setCurrentIndex(int index);
@@ -45,6 +61,10 @@ public slots:
     void updateRate(const QString &type, int percent);
     void updateAllRates(const QVariantMap &rateData);
     QVariantMap getAllRates() const;
+    
+    // 学习状况数据更新函数
+    void updateWeakestSubject();
+    void updateStudyTime(int minutesToday, int totalHours);
 
 signals:
     void currentIndexChanged();
@@ -58,6 +78,14 @@ signals:
     void vocabularyAccuracyChanged();
     void readingAccuracyChanged();
     void listeningAccuracyChanged();
+    
+    // 学习状况数据变化信号
+    void currentLevelChanged();
+    void studyDaysChanged();
+    void todayProgressChanged();
+    void weakestSubjectChanged();
+    void studyTimeTodayChanged();
+    void totalStudyTimeChanged();
 
 private:
     int m_currentIndex;
@@ -71,6 +99,14 @@ private:
     int m_vocabularyAccuracy;
     int m_readingAccuracy;
     int m_listeningAccuracy;
+    
+    // 学习状况数据成员变量
+    QString m_currentLevel;
+    int m_studyDays;
+    int m_todayProgress;
+    QString m_weakestSubject;
+    int m_studyTimeToday;    // 今日学习时间（分钟）
+    int m_totalStudyTime;    // 总学习时间（小时）
 };
 
 #endif // TABCONTROLLER_H

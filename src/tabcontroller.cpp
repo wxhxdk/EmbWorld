@@ -10,8 +10,14 @@ TabController::TabController(QObject *parent)
     , m_vocabularyAccuracy(55)
     , m_readingAccuracy(92)
     , m_listeningAccuracy(45)
+    , m_currentLevel("N2")
+    , m_studyDays(15)
+    , m_todayProgress(75)
+    , m_studyTimeToday(15)    // 今日学习时间：15分钟
+    , m_totalStudyTime(25)    // 总学习时间：25小时
 {
     m_tabNames = {"JLPT", "ITJA", "听力", "会话", "学伴", "我的"};
+    updateWeakestSubject();
 }
 
 int TabController::currentIndex() const
@@ -107,21 +113,25 @@ void TabController::updateRate(const QString &type, int percent)
         if (m_grammarAccuracy != percent) {
             m_grammarAccuracy = percent;
             emit grammarAccuracyChanged();
+            updateWeakestSubject(); // 正确率变化时重新计算最薄弱科目
         }
     } else if (type == "vocabulary") {
         if (m_vocabularyAccuracy != percent) {
             m_vocabularyAccuracy = percent;
             emit vocabularyAccuracyChanged();
+            updateWeakestSubject(); // 正确率变化时重新计算最薄弱科目
         }
     } else if (type == "reading") {
         if (m_readingAccuracy != percent) {
             m_readingAccuracy = percent;
             emit readingAccuracyChanged();
+            updateWeakestSubject(); // 正确率变化时重新计算最薄弱科目
         }
     } else if (type == "listening") {
         if (m_listeningAccuracy != percent) {
             m_listeningAccuracy = percent;
             emit listeningAccuracyChanged();
+            updateWeakestSubject(); // 正确率变化时重新计算最薄弱科目
         }
     }
 }
@@ -162,6 +172,72 @@ QVariantMap TabController::getAllRates() const
     rates["reading"] = m_readingAccuracy;
     rates["listening"] = m_listeningAccuracy;
     return rates;
+}
+
+// 学习状况相关实现函数
+QString TabController::currentLevel() const
+{
+    return m_currentLevel;
+}
+
+int TabController::studyDays() const
+{
+    return m_studyDays;
+}
+
+int TabController::todayProgress() const
+{
+    return m_todayProgress;
+}
+
+QString TabController::weakestSubject() const
+{
+    return m_weakestSubject;
+}
+
+int TabController::studyTimeToday() const
+{
+    return m_studyTimeToday;
+}
+
+int TabController::totalStudyTime() const
+{
+    return m_totalStudyTime;
+}
+
+void TabController::updateWeakestSubject()
+{
+    int minRate = qMin(qMin(m_vocabularyAccuracy, m_grammarAccuracy),
+                       qMin(m_readingAccuracy, m_listeningAccuracy));
+
+    QString newWeakest;
+    if (minRate == m_vocabularyAccuracy) {
+        newWeakest = "文字・語彙";
+    } else if (minRate == m_grammarAccuracy) {
+        newWeakest = "文法";
+    } else if (minRate == m_readingAccuracy) {
+        newWeakest = "読解";
+    } else {
+        newWeakest = "聽解";
+    }
+
+    if (m_weakestSubject != newWeakest) {
+        m_weakestSubject = newWeakest;
+        emit weakestSubjectChanged();
+    }
+}
+
+void TabController::updateStudyTime(int minutesToday, int totalHours)
+{
+    if (m_studyTimeToday != minutesToday) {
+        m_studyTimeToday = minutesToday;
+        emit studyTimeTodayChanged();
+    }
+    
+    if (m_totalStudyTime != totalHours) {
+        m_totalStudyTime = totalHours;
+        emit totalStudyTimeChanged();
+    }
 }
 
 
