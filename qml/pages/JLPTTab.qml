@@ -138,39 +138,37 @@ Rectangle {
                                 height: 80
 
                                 ColumnLayout {
-                                    anchors.fill: parent
-                                    spacing: 8
+                                    anchors.centerIn: parent
+                                    width: parent.width
+                                    spacing: 6
 
                                     Text {
                                         text: modelData.icon
                                         font.pixelSize: 24
                                         horizontalAlignment: Text.AlignHCenter
-                                        Layout.fillWidth: true
+                                        Layout.alignment: Qt.AlignHCenter
                                     }
 
-                                    ColumnLayout {
-                                        spacing: 2
+                                    Text {
+                                        text: modelData.text
+                                        font.pixelSize: 14
+                                        color: "#333333"
+                                        horizontalAlignment: Text.AlignHCenter
                                         Layout.alignment: Qt.AlignHCenter
+                                    }
 
-                                        Text {
-                                            text: modelData.text
-                                            font.pixelSize: 14
-                                            color: "#333333"
-                                            horizontalAlignment: Text.AlignHCenter
+                                    // 正确率显示组件
+                                    Text {
+                                        text: "正确率: " + modelData.rate
+                                        font.pixelSize: 11
+                                        color: {
+                                            var percent = parseInt(modelData.rate) || 0;
+                                            if (percent >= 80) return "#07c160";
+                                            if (percent >= 60) return "#ff9500";
+                                            return "#ff3b30";
                                         }
-
-                                        // 正确率显示组件
-                                        Text {
-                                            text: "正确率: " + modelData.rate
-                                            font.pixelSize: 12
-                                            color: {
-                                                var percent = parseInt(modelData.rate) || 0;
-                                                if (percent >= 80) return "#07c160";
-                                                if (percent >= 60) return "#ff9500";
-                                                return "#ff3b30";
-                                            }
-                                            horizontalAlignment: Text.AlignHCenter
-                                        }
+                                        horizontalAlignment: Text.AlignHCenter
+                                        Layout.alignment: Qt.AlignHCenter
                                     }
                                 }
 
@@ -220,15 +218,15 @@ Rectangle {
 
                         Repeater {
                             property var rateColors: [
-                                { threshold: 90, color: "#4CAF50", icon: "✓" },
-                                { threshold: 70, color: "#2196F3", icon: "➤" },
-                                { threshold: 50, color: "#FFC107", icon: "⚠" },
-                                { threshold: 0, color: "#F44336", icon: "✗" }
+                                { threshold: 90, color: "#4CAF50", icon: "🟢" },
+                                { threshold: 70, color: "#2196F3", icon: "🔵" },
+                                { threshold: 50, color: "#FFC107", icon: "🟡" },
+                                { threshold: 0, color: "#F44336", icon: "🔴" }
                             ]
 
                             model: [
+                                { icon: "📖", text: "文字・語彙", rate: (tabController ? tabController.vocabularyAccuracy : 55) + "%" },
                                 { icon: "📝", text: "文法", rate: (tabController ? tabController.grammarAccuracy : 85) + "%" },
-                                { icon: "📖", text: "文字・語彙", rate: (tabController ? tabController.vocabularyAccuracy : 78) + "%" },
                                 { icon: "📖", text: "読解", rate: (tabController ? tabController.readingAccuracy : 92) + "%" },
                                 { icon: "👂", text: "聴解", rate: (tabController ? tabController.listeningAccuracy : 45) + "%" }
                             ]
@@ -238,63 +236,60 @@ Rectangle {
                                 height: 80
 
                                 ColumnLayout {
-                                    anchors.fill: parent
-                                    spacing: 8
+                                    anchors.centerIn: parent
+                                    width: parent.width * 0.8
+                                    spacing: 6
 
                                     Text {
                                         text: modelData.icon
                                         font.pixelSize: 24
                                         horizontalAlignment: Text.AlignHCenter
+                                        Layout.alignment: Qt.AlignHCenter
                                         Layout.fillWidth: true
                                     }
 
-                                    ColumnLayout {
-                                        spacing: 2
+                                    Text {
+                                        text: modelData.text
+                                        font.pixelSize: 14
+                                        color: "#333333"
+                                        horizontalAlignment: Text.AlignHCenter
+                                        Layout.alignment: Qt.AlignHCenter
+                                        Layout.fillWidth: true
+                                    }
+
+                                    // 正确率显示组件
+                                    RowLayout {
+                                        spacing: 4
                                         Layout.alignment: Qt.AlignHCenter
 
+                                        // 状态图标
                                         Text {
-                                            text: modelData.text
-                                            font.pixelSize: 14
-                                            color: "#333333"
-                                            horizontalAlignment: Text.AlignHCenter
+                                            id: rateIcon
+                                            text: {
+                                                var percent = parseInt(modelData.rate) || 0;
+                                                if (percent >= 90) return "🟢";
+                                                if (percent >= 70) return "🔵";
+                                                if (percent >= 50) return "🟡";
+                                                return "🔴";
+                                            }
+                                            font {
+                                                pixelSize: Qt.platform.os === "android" ? 8 : 10
+                                            }
                                         }
 
-                                        // 正确率显示组件
-                                        RowLayout {
-                                            spacing: 4
-                                            Layout.alignment: Qt.AlignHCenter
-
-                                            // 状态图标
-                                            Text {
-                                                id: rateIcon
-                                                text: {
-                                                    var percent = parseInt(modelData.rate) || 0;
-                                                    if (percent >= 90) return "✓";
-                                                    if (percent >= 70) return "➤";
-                                                    if (percent >= 50) return "⚠";
-                                                    return "✗";
-                                                }
-                                                font {
-                                                    pixelSize: Qt.platform.os === "android" ? 10 : 12
-                                                    bold: true
-                                                }
-                                                color: {
-                                                    var percent = parseInt(modelData.rate) || 0;
-                                                    if (percent >= 90) return "#4CAF50"; // 优秀(绿色)
-                                                    if (percent >= 70) return "#2196F3"; // 良好(蓝色)
-                                                    if (percent >= 50) return "#FFC107"; // 一般(黄色)
-                                                    return "#F44336"; // 较差(红色)
-                                                }
+                                        // 百分比文字
+                                        Text {
+                                            text: modelData.rate
+                                            font {
+                                                pixelSize: Qt.platform.os === "android" ? 10 : 12
+                                                bold: Qt.platform.os === "android"
                                             }
-
-                                            // 百分比文字
-                                            Text {
-                                                text: modelData.rate
-                                                font {
-                                                    pixelSize: Qt.platform.os === "android" ? 10 : 12
-                                                    bold: Qt.platform.os === "android"
-                                                }
-                                                color: rateIcon.color // 保持与图标颜色一致
+                                            color: {
+                                                var percent = parseInt(modelData.rate) || 0;
+                                                if (percent >= 90) return "#4CAF50"; // 优秀(绿色)
+                                                if (percent >= 70) return "#2196F3"; // 良好(蓝色)
+                                                if (percent >= 50) return "#FFC107"; // 一般(黄色)
+                                                return "#F44336"; // 较差(红色)
                                             }
                                         }
                                     }
@@ -302,7 +297,7 @@ Rectangle {
 
                                 MouseArea {
                                     anchors.fill: parent
-                                    onClicked: console.log("开始练习:", modelData.text)
+                                    onClicked: console.log("開始練習:", modelData.text)
                                 }
                             }
                         }
@@ -310,10 +305,10 @@ Rectangle {
                 }
             }
 
-            // 强化巩固
+            // 強化巩固
             Rectangle {
                 Layout.fillWidth: true
-                height: 150
+                height: 200
                 radius: 8
                 color: "white"
 
@@ -341,9 +336,9 @@ Rectangle {
                         }
                     }
 
-                    RowLayout {
+                    ColumnLayout {
                         Layout.fillWidth: true
-                        spacing: 0
+                        spacing: 8
 
                         Repeater {
                             model: [
@@ -352,12 +347,18 @@ Rectangle {
                                     text: "必会题/易错题", 
                                     description: "大数据筛选出的必会题和易错题",
                                     rate: (tabController ? tabController.keyQuestionsAccuracy : 78) + "%" 
+                                },
+                                { 
+                                    icon: "🎲", 
+                                    text: "随机真题", 
+                                    description: "历年真题随机抽取，强化练习",
+                                    rate: (tabController ? tabController.randomQuestionsAccuracy : 85) + "%" 
                                 }
                             ]
 
                             delegate: Rectangle {
                                 Layout.fillWidth: true
-                                height: 80
+                                height: 70
                                 color: "transparent"
 
                                 RowLayout {
@@ -373,7 +374,7 @@ Rectangle {
                                         Layout.alignment: Qt.AlignVCenter
                                     }
 
-                                    // 右侧内容
+                                    // 右側内容
                                     ColumnLayout {
                                         spacing: 4
                                         Layout.fillWidth: true

@@ -7,7 +7,7 @@ TabController::TabController(QObject *parent)
     , m_mockExamAccuracy(89)
     , m_keyQuestionsAccuracy(78)
     , m_grammarAccuracy(85)
-    , m_vocabularyAccuracy(78)
+    , m_vocabularyAccuracy(55)
     , m_readingAccuracy(92)
     , m_listeningAccuracy(45)
 {

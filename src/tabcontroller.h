@@ -11,7 +11,7 @@ class TabController : public QObject
     Q_OBJECT
     Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
     Q_PROPERTY(QString currentTab READ currentTab NOTIFY currentTabChanged)
-    
+
     // JLPT 相关数据属性
     Q_PROPERTY(int realQuestionsAccuracy READ realQuestionsAccuracy NOTIFY realQuestionsAccuracyChanged)
     Q_PROPERTY(int mockExamAccuracy READ mockExamAccuracy NOTIFY mockExamAccuracyChanged)
@@ -26,7 +26,7 @@ public:
 
     int currentIndex() const;
     QString currentTab() const;
-    
+
     // JLPT 数据读取函数
     int realQuestionsAccuracy() const;
     int mockExamAccuracy() const;
@@ -40,7 +40,7 @@ public slots:
     void setCurrentIndex(int index);
     void switchToTab(int index);
     void switchToTabByName(const QString &tabName);
-    
+
     // JLPT 数据更新函数
     void updateRate(const QString &type, int percent);
     void updateAllRates(const QVariantMap &rateData);
@@ -49,7 +49,7 @@ public slots:
 signals:
     void currentIndexChanged();
     void currentTabChanged();
-    
+
     // JLPT 数据变化信号
     void realQuestionsAccuracyChanged();
     void mockExamAccuracyChanged();
@@ -62,7 +62,7 @@ signals:
 private:
     int m_currentIndex;
     QStringList m_tabNames;
-    
+
     // JLPT 数据成员变量
     int m_realQuestionsAccuracy;
     int m_mockExamAccuracy;
