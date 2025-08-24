@@ -262,16 +262,16 @@ Rectangle {
                     }
 
                     RowLayout {
-                        spacing: 20
+                        spacing: 15
                         Layout.fillWidth: true
 
-                        // 学习记录（时间+天数）
+                        // 学习时间
                         ColumnLayout {
                             spacing: 4
                             Layout.fillWidth: true
 
                             Text {
-                                text: "学习记录"
+                                text: "学习时间"
                                 font.pixelSize: 12
                                 color: "#666666"
                             }
@@ -284,14 +284,26 @@ Rectangle {
                                 }
                                 color: "#07c160"
                             }
+                        }
+
+                        // 学习天数
+                        ColumnLayout {
+                            spacing: 4
+                            Layout.fillWidth: true
+
+                            Text {
+                                text: "学习天数"
+                                font.pixelSize: 12
+                                color: "#666666"
+                            }
                             
                             Text {
                                 text: (tabController ? tabController.studyDays : 15) + "天"
                                 font {
-                                    pixelSize: 14
-                                    weight: Font.Normal
+                                    pixelSize: 16
+                                    weight: Font.Medium
                                 }
-                                color: "#999999"
+                                color: "#4285f4"
                             }
                         }
 
