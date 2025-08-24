@@ -38,7 +38,161 @@ Rectangle {
             spacing: 16
             anchors.margins: 16
 
-            // 学习状况卡片
+            // 工具栏区域
+            Rectangle {
+                Layout.fillWidth: true
+                height: 48
+                radius: 12
+                color: "white"
+                border {
+                    color: "#f0f0f0"
+                    width: 1
+                }
+                
+                // 用 Rectangle 模拟阴影效果
+                Rectangle {
+                    anchors.fill: parent
+                    anchors.topMargin: 2
+                    anchors.leftMargin: 1
+                    anchors.rightMargin: 1
+                    radius: parent.radius
+                    color: "#f8f9fa"
+                    z: -1
+                }
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.margins: 8
+                    spacing: 12
+
+                    // 扫码按钮 - 文字+图标组合
+                    Rectangle {
+                        width: 60
+                        height: 36
+                        radius: 18
+                        color: mouseAreaScan.pressed ? "#f1f3f4" : "#ffffff"
+                        border {
+                            color: mouseAreaScan.hovered ? "#dadce0" : "#e8eaed"
+                            width: 1
+                        }
+
+                        RowLayout {
+                            anchors.centerIn: parent
+                            spacing: 4
+
+                            Text {
+                                text: "⚡"
+                                font.pixelSize: 14
+                                color: "#5f6368"
+                            }
+
+                            Text {
+                                text: "QR"
+                                font {
+                                    pixelSize: 13
+                                    weight: Font.Medium
+                                }
+                                color: "#3c4043"
+                            }
+                        }
+
+                        MouseArea {
+                            id: mouseAreaScan
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: console.log("扫码功能")
+                        }
+                    }
+
+                    // 搜索框 - 保持现有设计
+                    Rectangle {
+                        Layout.fillWidth: true
+                        height: 36
+                        radius: 18
+                        color: mouseAreaSearch.pressed ? "#f8f9fa" : "#fafbfc"
+                        border {
+                            color: mouseAreaSearch.hovered ? "#e1e4e8" : "#f1f3f4"
+                            width: 1
+                        }
+
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: 16
+                            anchors.rightMargin: 16
+                            spacing: 8
+
+                            Text {
+                                text: "🔍"
+                                font.pixelSize: 14
+                                color: "#6c757d"
+                            }
+
+                            Text {
+                                text: "搜索题目、单词、语法..."
+                                font {
+                                    pixelSize: 14
+                                    weight: Font.Normal
+                                }
+                                color: "#adb5bd"
+                                Layout.fillWidth: true
+                            }
+                        }
+
+                        MouseArea {
+                            id: mouseAreaSearch
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: console.log("搜索功能")
+                        }
+                    }
+
+                    // 等级选择 - 极简标签风格
+                    Rectangle {
+                        width: 50
+                        height: 36
+                        radius: 6
+                        color: "transparent"
+                        border {
+                            color: mouseAreaLevel.pressed ? "#1a73e8" : "#dadce0"
+                            width: 1.5
+                        }
+
+                        RowLayout {
+                            anchors.centerIn: parent
+                            spacing: 2
+
+                            Text {
+                                text: tabController ? tabController.currentLevel : "N2"
+                                font {
+                                    pixelSize: 14
+                                    weight: Font.Medium
+                                    letterSpacing: 0.3
+                                }
+                                color: mouseAreaLevel.pressed ? "#1a73e8" : "#5f6368"
+                            }
+
+                            Text {
+                                text: "▼"
+                                font.pixelSize: 10
+                                color: mouseAreaLevel.pressed ? "#1a73e8" : "#9aa0a6"
+                            }
+                        }
+
+                        MouseArea {
+                            id: mouseAreaLevel
+                            anchors.fill: parent
+                            onClicked: {
+                                if (tabController) {
+                                    tabController.switchToNextLevel();
+                                }
+                                console.log("等级切换至:", tabController ? tabController.currentLevel : "N2");
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 学习狀況卡片
             Rectangle {
                 Layout.fillWidth: true
                 height: 140
@@ -55,12 +209,12 @@ Rectangle {
                         Layout.alignment: Qt.AlignLeft
 
                         Text {
-                            text: "📊"
+                            text: "📈"
                             font.pixelSize: 16
                         }
 
                         Text {
-                            text: "学习状况"
+                            text: "学习狀況"
                             font {
                                 pixelSize: 16
                                 weight: Font.Medium
@@ -369,7 +523,7 @@ Rectangle {
                 }
             }
 
-            // 強化巩固
+            // 强化巩固
             Rectangle {
                 Layout.fillWidth: true
                 height: 200
@@ -430,7 +584,7 @@ Rectangle {
                                     anchors.margins: 12
                                     spacing: 16
 
-                                    // 左侧图标
+                                    // 左側图标
                                     Text {
                                         text: modelData.icon
                                         font.pixelSize: 32

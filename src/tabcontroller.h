@@ -22,7 +22,7 @@ class TabController : public QObject
     Q_PROPERTY(int listeningAccuracy READ listeningAccuracy NOTIFY listeningAccuracyChanged)
     
     // 学习状况相关数据属性
-    Q_PROPERTY(QString currentLevel READ currentLevel NOTIFY currentLevelChanged)
+    Q_PROPERTY(QString currentLevel READ currentLevel WRITE setCurrentLevel NOTIFY currentLevelChanged)
     Q_PROPERTY(int studyDays READ studyDays NOTIFY studyDaysChanged)
     Q_PROPERTY(int todayProgress READ todayProgress NOTIFY todayProgressChanged)
     Q_PROPERTY(QString weakestSubject READ weakestSubject NOTIFY weakestSubjectChanged)
@@ -51,6 +51,9 @@ public:
     QString weakestSubject() const;
     int studyTimeToday() const;
     int totalStudyTime() const;
+    
+    // 等级设置函数
+    void setCurrentLevel(const QString &level);
 
 public slots:
     void setCurrentIndex(int index);
@@ -65,6 +68,9 @@ public slots:
     // 学习状况数据更新函数
     void updateWeakestSubject();
     void updateStudyTime(int minutesToday, int totalHours);
+    
+    // 等级选择函数
+    void switchToNextLevel();
 
 signals:
     void currentIndexChanged();

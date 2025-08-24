@@ -205,6 +205,29 @@ int TabController::totalStudyTime() const
     return m_totalStudyTime;
 }
 
+void TabController::setCurrentLevel(const QString &level)
+{
+    if (m_currentLevel != level) {
+        m_currentLevel = level;
+        emit currentLevelChanged();
+    }
+}
+
+void TabController::switchToNextLevel()
+{
+    QStringList levels = {"N5", "N4", "N3", "N2", "N1"};
+    int currentIndex = levels.indexOf(m_currentLevel);
+    
+    if (currentIndex == -1) {
+        // 如果当前等级不在列表中，默认设为N2
+        setCurrentLevel("N2");
+    } else {
+        // 循环切换到下一个等级
+        int nextIndex = (currentIndex + 1) % levels.size();
+        setCurrentLevel(levels[nextIndex]);
+    }
+}
+
 void TabController::updateWeakestSubject()
 {
     int minRate = qMin(qMin(m_vocabularyAccuracy, m_grammarAccuracy),
